@@ -28,7 +28,7 @@ ExecStart=/bin/sh -c "echo 'nameserver 8.8.8.8' > /etc/netns/vpn/resolv.conf"
 ExecStop=/bin/rm -rf /etc/netns/vpn
 ExecStop=/sbin/sysctl -q net.ipv4.ip_forward=0
 ExecStop=/sbin/iptables -D INPUT ! -i vpn0 -s ${NETWORK}.0/24 -j DROP
-ExecStop=/sbin/iptables -t nat -D POSTROUTING -s ${NETWORK}.0/24 -o wl+ -j MASQUERADE
+ExecStop=/sbin/iptables -t nat -D POSTROUTING -s ${NETWORK}.0/24 -o ${EXTERNAL_IF} -j MASQUERADE
 ExecStop=/bin/ip link del vpn0
 ExecStop=/bin/ip netns delete vpn
 
